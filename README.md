@@ -1,6 +1,4 @@
 # project-servlet
-
----
 ### Servlet Project
 
 JavaRush servlet learning:
