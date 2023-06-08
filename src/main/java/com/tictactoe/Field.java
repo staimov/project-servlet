@@ -35,7 +35,7 @@ public class Field {
                 .keySet()
                 .stream()
                 .filter(key -> field.get(key) == Sign.EMPTY)
-                .collect(Collectors.toList());
+                .toList();
 
         if (emptyFieldKeys.isEmpty()) return -1;
 
