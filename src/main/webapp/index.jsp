@@ -2,7 +2,7 @@
 <%@ page import="com.tictactoe.Sign" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="en" data-bs-theme="dark">
 <head>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <script src="<c:url value="/static/jquery-3.6.0.min.js"/>"></script>
@@ -58,18 +58,14 @@
     </c:if>
     <c:if test="${draw}">
         <h1>
-            <span class="badge bg-info-subtle border border-info-subtle text-info-emphasis rounded-pill">I
-                T'S A DRAW
+            <span class="badge bg-info-subtle border border-info-subtle text-info-emphasis rounded-pill">
+                IT'S A DRAW
             </span>
         </h1>
         <br>
         <button class="btn btn-primary" onclick="restart()">Start again</button>
     </c:if>
-
-
 </div>
-
-
 
 <script>
     function restart() {
