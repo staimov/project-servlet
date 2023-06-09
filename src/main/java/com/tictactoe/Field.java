@@ -68,22 +68,41 @@ public class Field {
     public int getEmptyFieldIndexByWinRules() {
         for (List<Integer> winPossibility : winPossibilities) {
             if (field.get(winPossibility.get(0)) == field.get(winPossibility.get(1))
-                && field.get(winPossibility.get(0)) != Sign.EMPTY
-                && field.get(winPossibility.get(2)) == Sign.EMPTY) {
+                    && field.get(winPossibility.get(0)) == Sign.NOUGHT
+                    && field.get(winPossibility.get(2)) == Sign.EMPTY) {
                 return winPossibility.get(2);
             }
 
             if (field.get(winPossibility.get(0)) == field.get(winPossibility.get(2))
-                    && field.get(winPossibility.get(0)) != Sign.EMPTY
+                    && field.get(winPossibility.get(0)) == Sign.NOUGHT
                     && field.get(winPossibility.get(1)) == Sign.EMPTY) {
                 return winPossibility.get(1);
             }
 
             if (field.get(winPossibility.get(1)) == field.get(winPossibility.get(2))
-                    && field.get(winPossibility.get(1)) != Sign.EMPTY
+                    && field.get(winPossibility.get(1)) == Sign.NOUGHT
                     && field.get(winPossibility.get(0)) == Sign.EMPTY) {
                 return winPossibility.get(0);
             }
+
+            if (field.get(winPossibility.get(0)) == field.get(winPossibility.get(1))
+                    && field.get(winPossibility.get(0)) == Sign.CROSS
+                    && field.get(winPossibility.get(2)) == Sign.EMPTY) {
+                return winPossibility.get(2);
+            }
+
+            if (field.get(winPossibility.get(0)) == field.get(winPossibility.get(2))
+                    && field.get(winPossibility.get(0)) == Sign.CROSS
+                    && field.get(winPossibility.get(1)) == Sign.EMPTY) {
+                return winPossibility.get(1);
+            }
+
+            if (field.get(winPossibility.get(1)) == field.get(winPossibility.get(2))
+                    && field.get(winPossibility.get(1)) == Sign.CROSS
+                    && field.get(winPossibility.get(0)) == Sign.EMPTY) {
+                return winPossibility.get(0);
+            }
+
         }
 
         return getPreferredEmptyField();
