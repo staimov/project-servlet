@@ -4,6 +4,17 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Field {
+    private static final List<List<Integer>> winPossibilities = List.of(
+            List.of(0, 1, 2),
+            List.of(3, 4, 5),
+            List.of(6, 7, 8),
+            List.of(0, 3, 6),
+            List.of(1, 4, 7),
+            List.of(2, 5, 8),
+            List.of(0, 4, 8),
+            List.of(2, 4, 6)
+    );
+
     private final Map<Integer, Sign> field;
 
     public Field() {
@@ -43,6 +54,41 @@ public class Field {
         return emptyFieldKeys.get(random.nextInt(emptyFieldKeys.size()));
     }
 
+    public int getPreferredEmptyField() {
+        List<Integer> preferredMoves = List.of(4, 0, 2, 6, 8, 1, 3, 5, 7);
+
+        for (Integer index: preferredMoves) {
+            if (field.get(index) == Sign.EMPTY)
+                return index;
+        }
+
+        return -1;
+    }
+
+    public int getEmptyFieldIndexByWinRules() {
+        for (List<Integer> winPossibility : winPossibilities) {
+            if (field.get(winPossibility.get(0)) == field.get(winPossibility.get(1))
+                && field.get(winPossibility.get(0)) != Sign.EMPTY
+                && field.get(winPossibility.get(2)) == Sign.EMPTY) {
+                return winPossibility.get(2);
+            }
+
+            if (field.get(winPossibility.get(0)) == field.get(winPossibility.get(2))
+                    && field.get(winPossibility.get(0)) != Sign.EMPTY
+                    && field.get(winPossibility.get(1)) == Sign.EMPTY) {
+                return winPossibility.get(1);
+            }
+
+            if (field.get(winPossibility.get(1)) == field.get(winPossibility.get(2))
+                    && field.get(winPossibility.get(1)) != Sign.EMPTY
+                    && field.get(winPossibility.get(0)) == Sign.EMPTY) {
+                return winPossibility.get(0);
+            }
+        }
+
+        return getPreferredEmptyField();
+    }
+
     public List<Sign> getFieldData() {
         return field.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
@@ -51,17 +97,6 @@ public class Field {
     }
 
     public Sign checkWin() {
-        List<List<Integer>> winPossibilities = List.of(
-                List.of(0, 1, 2),
-                List.of(3, 4, 5),
-                List.of(6, 7, 8),
-                List.of(0, 3, 6),
-                List.of(1, 4, 7),
-                List.of(2, 5, 8),
-                List.of(0, 4, 8),
-                List.of(2, 4, 6)
-        );
-
         for (List<Integer> winPossibility : winPossibilities) {
             if (field.get(winPossibility.get(0)) == field.get(winPossibility.get(1))
                 && field.get(winPossibility.get(0)) == field.get(winPossibility.get(2))) {

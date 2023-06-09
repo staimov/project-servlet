@@ -40,8 +40,8 @@ public class LogicServlet extends HttpServlet {
             return;
         }
 
-        // Получаем пустую ячейку поля, куда AI хочет поставить 0
-        int emptyFieldIndex = field.getRandomEmptyFieldIndex();
+        // Получаем пустую ячейку поля, куда AI хочет поставить свой 0
+        int emptyFieldIndex = field.getEmptyFieldIndexByWinRules();
 
         // Если такая ячейка присутствует
         if (emptyFieldIndex >= 0) {
