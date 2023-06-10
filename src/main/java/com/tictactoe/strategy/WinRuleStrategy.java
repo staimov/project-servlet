@@ -14,44 +14,38 @@ public class WinRuleStrategy implements AiStrategy {
 
     @Override
     public int getMove(Map<Integer, Sign> field) {
+        int result;
+
+        result = getMove(field, Sign.NOUGHT);
+        if (result >= 0) return result;
+        result = getMove(field, Sign.CROSS);
+        if (result >= 0) return result;
+        result = secondary.getMove(field);
+
+        return result;
+    }
+
+    private int getMove(Map<Integer, Sign> field, Sign sign) {
         for (List<Integer> winPossibility : WinPossibilities.values) {
             if (field.get(winPossibility.get(0)) == field.get(winPossibility.get(1))
-                    && field.get(winPossibility.get(0)) == Sign.NOUGHT
+                    && field.get(winPossibility.get(0)) == sign
                     && field.get(winPossibility.get(2)) == Sign.EMPTY) {
                 return winPossibility.get(2);
             }
 
             if (field.get(winPossibility.get(0)) == field.get(winPossibility.get(2))
-                    && field.get(winPossibility.get(0)) == Sign.NOUGHT
+                    && field.get(winPossibility.get(0)) == sign
                     && field.get(winPossibility.get(1)) == Sign.EMPTY) {
                 return winPossibility.get(1);
             }
 
             if (field.get(winPossibility.get(1)) == field.get(winPossibility.get(2))
-                    && field.get(winPossibility.get(1)) == Sign.NOUGHT
-                    && field.get(winPossibility.get(0)) == Sign.EMPTY) {
-                return winPossibility.get(0);
-            }
-
-            if (field.get(winPossibility.get(0)) == field.get(winPossibility.get(1))
-                    && field.get(winPossibility.get(0)) == Sign.CROSS
-                    && field.get(winPossibility.get(2)) == Sign.EMPTY) {
-                return winPossibility.get(2);
-            }
-
-            if (field.get(winPossibility.get(0)) == field.get(winPossibility.get(2))
-                    && field.get(winPossibility.get(0)) == Sign.CROSS
-                    && field.get(winPossibility.get(1)) == Sign.EMPTY) {
-                return winPossibility.get(1);
-            }
-
-            if (field.get(winPossibility.get(1)) == field.get(winPossibility.get(2))
-                    && field.get(winPossibility.get(1)) == Sign.CROSS
+                    && field.get(winPossibility.get(1)) == sign
                     && field.get(winPossibility.get(0)) == Sign.EMPTY) {
                 return winPossibility.get(0);
             }
         }
 
-        return secondary.getMove(field);
+        return -1;
     }
 }
