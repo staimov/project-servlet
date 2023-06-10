@@ -1,9 +1,6 @@
 package com.tictactoe;
 
-import com.tictactoe.strategy.FirstEmptyStrategy;
-import com.tictactoe.strategy.PreferredEmptyStrategy;
-import com.tictactoe.strategy.RandomEmptyStrategy;
-import com.tictactoe.strategy.WinRuleStrategy;
+import com.tictactoe.strategy.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,7 +22,7 @@ public class InitServlet extends HttpServlet {
         //Field field = new Field(new WinRuleStrategy(new FirstEmptyStrategy()));
         //Field field = new Field(new WinRuleStrategy(new RandomEmptyStrategy()));
         //Field field = new Field(new WinRuleStrategy(new PreferredEmptyStrategy()));
-        Field field = new Field(new WinRuleStrategy(new PreferredEmptyStrategy()));
+        Field field = new Field(new WinRuleStrategy(new PreferredWithRandomStrategy()));
 
         // Получение списка значений поля
         List<Sign> data = field.getFieldData();
