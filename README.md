@@ -1,5 +1,5 @@
 # project-servlet
-### Servlet Project
+### Tic-Tac-Toe Servlet Project
 
 JavaRush servlet learning:
 
