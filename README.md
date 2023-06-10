@@ -9,6 +9,10 @@ https://javarush.com/quests/lectures/jru.module3.lecture03
 
 Tomcat 9 required.
 
+## Note
+
+AI strategies implemented.
+
 ## Screenshot
 
 ![screenshot](./src/main/webapp/static/img/screenshot.png?raw=true)
