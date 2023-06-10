@@ -50,7 +50,6 @@ public class WinRuleStrategy implements AiStrategy {
                     && field.get(winPossibility.get(0)) == Sign.EMPTY) {
                 return winPossibility.get(0);
             }
-
         }
 
         return secondary.getMove(field);
