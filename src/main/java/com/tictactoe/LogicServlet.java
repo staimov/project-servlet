@@ -20,7 +20,7 @@ public class LogicServlet extends HttpServlet {
         // Получаем объект игрового поля из сессии
         Field field = extractField(currentSession);
 
-        // получаем индекс ячейки, по которой произошел клик
+        // Получаем индекс ячейки, по которой произошел клик
         int index = getSelectedIndex(req);
         Sign currentSign = field.getField().get(index);
 
@@ -33,26 +33,27 @@ public class LogicServlet extends HttpServlet {
             return;
         }
 
-        // ставим крестик в ячейке, по которой кликнул пользователь
+        // ставим X в ячейке, по которой кликнул пользователь
         field.getField().put(index, Sign.CROSS);
         // Проверяем, не победил ли крестик после добавления последнего клика пользователя
         if (checkWin(resp, currentSession, field)) {
             return;
         }
 
-        // Получаем пустую ячейку поля, куда AI хочет поставить свой 0
-        int emptyFieldIndex = field.getEmptyFieldIndexByWinRules();
+        // Получаем ячейку поля, куда AI хочет поставить свой 0
+        int aiMoveIndex = field.getAiMove();
 
-        // Если такая ячейка присутствует
-        if (emptyFieldIndex >= 0) {
-            field.getField().put(emptyFieldIndex, Sign.NOUGHT);
-            // Проверяем, не победил ли нолик после добавление последнего нолика
+        if (aiMoveIndex >= 0) {
+            // Если ячейка свободна
+            // Ставим 0
+            field.getField().put(aiMoveIndex, Sign.NOUGHT);
+            // Проверяем, не победил ли AI после добавление последнего 0
             if (checkWin(resp, currentSession, field)) {
                 return;
             }
         }
-        // Если пустой ячейки нет и никто не победил - значит это ничья
         else {
+            // Если пустой ячейки нет и никто не победил - значит это ничья
             // Добавляем в сессию флаг, который сигнализирует что произошла ничья
             currentSession.setAttribute("draw", true);
 
@@ -93,7 +94,7 @@ public class LogicServlet extends HttpServlet {
     }
 
     /**
-     * Метод проверяет, нет ли трех крестиков/ноликов в ряд.
+     * Метод проверяет, нет ли трех X или 0 в ряд.
      * Возвращает true/false
      */
     private boolean checkWin(HttpServletResponse response, HttpSession currentSession, Field field) throws IOException {

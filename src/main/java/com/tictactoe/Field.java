@@ -1,111 +1,29 @@
 package com.tictactoe;
 
+import com.tictactoe.strategy.AiStrategy;
+import com.tictactoe.strategy.WinPossibilities;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class Field {
-    private static final List<List<Integer>> winPossibilities = List.of(
-            List.of(0, 1, 2),
-            List.of(3, 4, 5),
-            List.of(6, 7, 8),
-            List.of(0, 3, 6),
-            List.of(1, 4, 7),
-            List.of(2, 5, 8),
-            List.of(0, 4, 8),
-            List.of(2, 4, 6)
-    );
+    private final Map<Integer, Sign> field = new HashMap<>();
+    private final AiStrategy strategy;
 
-    private final Map<Integer, Sign> field;
+    public Field(AiStrategy strategy) {
+        for (int i = 0; i < 9; i++) {
+            field.put(i, Sign.EMPTY);
+        }
 
-    public Field() {
-        field = new HashMap<>();
-        field.put(0, Sign.EMPTY);
-        field.put(1, Sign.EMPTY);
-        field.put(2, Sign.EMPTY);
-        field.put(3, Sign.EMPTY);
-        field.put(4, Sign.EMPTY);
-        field.put(5, Sign.EMPTY);
-        field.put(6, Sign.EMPTY);
-        field.put(7, Sign.EMPTY);
-        field.put(8, Sign.EMPTY);
+        this.strategy = strategy;
     }
 
     public Map<Integer, Sign> getField() {
         return field;
     }
 
-    public int getFirstEmptyFieldIndex() {
-        return field.entrySet().stream()
-                .filter(e -> e.getValue() == Sign.EMPTY)
-                .map(Map.Entry::getKey)
-                .findFirst().orElse(-1);
-    }
-
-    public int getRandomEmptyFieldIndex() {
-        List<Integer> emptyFieldKeys = field
-                .keySet()
-                .stream()
-                .filter(key -> field.get(key) == Sign.EMPTY)
-                .toList();
-
-        if (emptyFieldKeys.isEmpty()) return -1;
-
-        Random random = new Random();
-        return emptyFieldKeys.get(random.nextInt(emptyFieldKeys.size()));
-    }
-
-    public int getPreferredEmptyField() {
-        List<Integer> preferredMoves = List.of(4, 0, 2, 6, 8, 1, 3, 5, 7);
-
-        for (Integer index: preferredMoves) {
-            if (field.get(index) == Sign.EMPTY)
-                return index;
-        }
-
-        return -1;
-    }
-
-    public int getEmptyFieldIndexByWinRules() {
-        for (List<Integer> winPossibility : winPossibilities) {
-            if (field.get(winPossibility.get(0)) == field.get(winPossibility.get(1))
-                    && field.get(winPossibility.get(0)) == Sign.NOUGHT
-                    && field.get(winPossibility.get(2)) == Sign.EMPTY) {
-                return winPossibility.get(2);
-            }
-
-            if (field.get(winPossibility.get(0)) == field.get(winPossibility.get(2))
-                    && field.get(winPossibility.get(0)) == Sign.NOUGHT
-                    && field.get(winPossibility.get(1)) == Sign.EMPTY) {
-                return winPossibility.get(1);
-            }
-
-            if (field.get(winPossibility.get(1)) == field.get(winPossibility.get(2))
-                    && field.get(winPossibility.get(1)) == Sign.NOUGHT
-                    && field.get(winPossibility.get(0)) == Sign.EMPTY) {
-                return winPossibility.get(0);
-            }
-
-            if (field.get(winPossibility.get(0)) == field.get(winPossibility.get(1))
-                    && field.get(winPossibility.get(0)) == Sign.CROSS
-                    && field.get(winPossibility.get(2)) == Sign.EMPTY) {
-                return winPossibility.get(2);
-            }
-
-            if (field.get(winPossibility.get(0)) == field.get(winPossibility.get(2))
-                    && field.get(winPossibility.get(0)) == Sign.CROSS
-                    && field.get(winPossibility.get(1)) == Sign.EMPTY) {
-                return winPossibility.get(1);
-            }
-
-            if (field.get(winPossibility.get(1)) == field.get(winPossibility.get(2))
-                    && field.get(winPossibility.get(1)) == Sign.CROSS
-                    && field.get(winPossibility.get(0)) == Sign.EMPTY) {
-                return winPossibility.get(0);
-            }
-
-        }
-
-        return getPreferredEmptyField();
+    public int getAiMove() {
+        return strategy.getMove(field);
     }
 
     public List<Sign> getFieldData() {
@@ -116,12 +34,6 @@ public class Field {
     }
 
     public Sign checkWin() {
-        for (List<Integer> winPossibility : winPossibilities) {
-            if (field.get(winPossibility.get(0)) == field.get(winPossibility.get(1))
-                && field.get(winPossibility.get(0)) == field.get(winPossibility.get(2))) {
-                return field.get(winPossibility.get(0));
-            }
-        }
-        return Sign.EMPTY;
+        return WinPossibilities.checkWin(field);
     }
 }

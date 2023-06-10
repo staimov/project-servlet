@@ -1,5 +1,10 @@
 package com.tictactoe;
 
+import com.tictactoe.strategy.FirstEmptyStrategy;
+import com.tictactoe.strategy.PreferredEmptyStrategy;
+import com.tictactoe.strategy.RandomEmptyStrategy;
+import com.tictactoe.strategy.WinRuleStrategy;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 @WebServlet(name = "InitServlet", value = "/start")
 public class InitServlet extends HttpServlet {
@@ -18,7 +22,10 @@ public class InitServlet extends HttpServlet {
         HttpSession currentSession = req.getSession(true);
 
         // Создание игрового поля
-        Field field = new Field();
+        //Field field = new Field(new WinRuleStrategy(new FirstEmptyStrategy()));
+        //Field field = new Field(new WinRuleStrategy(new RandomEmptyStrategy()));
+        //Field field = new Field(new WinRuleStrategy(new PreferredEmptyStrategy()));
+        Field field = new Field(new WinRuleStrategy(new PreferredEmptyStrategy()));
 
         // Получение списка значений поля
         List<Sign> data = field.getFieldData();
