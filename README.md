@@ -15,4 +15,4 @@ Tomcat 9 required.
 
 ## Note
 
-**AI strategies implemented.**
+**AI strategies are implemented.**
