@@ -11,7 +11,7 @@ https://javarush.com/quests/lectures/jru.module3.lecture03
 
 ## Requirements
 
-Tomcat 9 required.
+Tomcat 9 is required.
 
 ## Note
 
